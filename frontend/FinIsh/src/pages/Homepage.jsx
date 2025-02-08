@@ -14,8 +14,8 @@ function Node({ position, label, onClick }) {
         onPointerOut={() => setHovered(false)}
         scale={hovered ? 1.5 : 1}
       >
-        <sphereGeometry args={[0.5, 32, 32]} />
-        <meshStandardMaterial color={hovered ? "#D8BFD8" : label === "User" ? "black" : "purple"} />
+        <sphereGeometry args={[0.4, 32, 32]} />
+        <meshStandardMaterial color={hovered ? "#D8BFD8" : label === "My Profile" ? "black" : "purple"} />
       </mesh>
       <Text
         position={[0, -1, 0]} // Adjust the vertical position to place the text below the node
@@ -32,10 +32,10 @@ function Node({ position, label, onClick }) {
 
 export default function HomePage() {
   const nodes = useMemo(() => [
-    { label: "Profile", position: [2, 2, 0], link: "/profile" },
-    { label: "Projects", position: [-2, 2, 0], link: "/projects" },
-    { label: "Contact", position: [2, -2, 0], link: "/contact" },
-    { label: "Blog", position: [-2, -2, 0], link: "/blog" },
+    { label: "Discussion", position: [2, 3, 0], link: "/discussion" },
+    { label: "Enrollment", position: [-2, 3, 0], link: "/enrollment" },
+    { label: "Explore", position: [2, -1, 0], link: "/explore" },
+    { label: "About Us", position: [-2, -1, 0], link: "/aboutus" },
   ], []);
 
   return (
@@ -43,7 +43,7 @@ export default function HomePage() {
       <Canvas camera={{ position: [0, 0, 5] }} style={{ backgroundColor: "white" }}>
         <ambientLight intensity={0.5} />
         <directionalLight position={[2, 2, 2]} intensity={1} />
-        <Node position={[0, 0, 0]} label="User" />
+        <Node position={[0, 1, 0]} label="My Profile" />
         {nodes.map((node, index) => (
           <Node
             key={index}

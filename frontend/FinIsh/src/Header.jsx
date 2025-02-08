@@ -9,8 +9,10 @@ function Header() {
       </div>
       <nav className="nav">
         <a href="/">Profile</a>
-        <a href="/about">My Learning</a>
-        <a href="/contact">My Threads</a>
+        <a href="/enrollment">Enrollment</a>
+        <a href="/discussion">Discussion</a>
+        <a href="/explore">Explore</a>
+        <a href="/aboutus">About Us</a>
       </nav>
     </header>
   );
