@@ -1,6 +1,8 @@
 import React, { useState, useRef, useMemo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, Text } from "@react-three/drei";
+import Explore from "./Explore/Explore.jsx"
+import { useNavigate } from 'react-router-dom';
 import * as THREE from 'three';
 
 function Node({ position, label, onClick }) {
@@ -31,12 +33,19 @@ function Node({ position, label, onClick }) {
 }
 
 export default function HomePage() {
+  const navigate = useNavigate();
   const nodes = useMemo(() => [
-    { label: "Discussion", position: [2, 3, 0], link: "/discussion" },
-    { label: "Enrollment", position: [-2, 3, 0], link: "/enrollment" },
-    { label: "Explore", position: [2, -1, 0], link: "/explore" },
-    { label: "About Us", position: [-2, -1, 0], link: "/aboutus" },
+    { label: "Discussion", position: [2, 3, 0], link: "/#discussion" },
+    { label: "Enrollment", position: [-2, 3, 0], link: "/#enrollment" },
+    { label: "Explore", position: [2, -1, 0], link: "/#explore" },
+    { label: "About Us", position: [-2, -1, 0], link: "/#aboutus" },
   ], []);
+
+  const handleNodeClick = (link) => {
+    if (link) {
+      navigate(link); // Use navigate to go to the route
+    }
+  };
 
   return (
     
