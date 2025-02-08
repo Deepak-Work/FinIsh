@@ -1,0 +1,59 @@
+.header {
+    background-color: #000; /* Black background */
+    color: white;
+    padding: 1.2rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1); /* Subtle white shadow */
+  }
+  
+  .logo {
+    font-size: 1.75rem;
+    font-weight: bold;
+    margin-left: 30px;
+    color: #dda0dd; /* Light purple logo */
+  }
+  
+  .nav {
+    margin-right: 30px;
+    display: flex; /* Added to align items in a row */
+    align-items: center; /* Vertically center items */
+  }
+  
+  .nav a {
+    color: #dda0dd; /* Light purple links */
+    text-decoration: none;
+    margin-left: 1.5rem;
+    padding: 0.75rem 1.25rem;
+    border-radius: 8px;
+    transition: transform 0.3s ease, color 0.3s ease; /* Smooth transition for scaling and color */
+    font-weight: 500;
+    display: inline-block; /* Required for transform to work correctly */
+  }
+  
+  .nav a:hover {
+    /* text-decoration: underline; */
+    color: #e6b8eb; /* Lighter purple on hover */
+    transform: scale(1.1); /* Scale up on hover */
+  }
+  
+  .signout-button {
+    background-color: transparent; /* No background */
+    color: #dda0dd; /* Light purple text */
+    border: 1px solid #dda0dd; /* Light purple border */
+    padding: 0.75rem 1.25rem;
+    border-radius: 8px;
+    margin-left: 1.5rem;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease; /* Smooth transition for all properties */
+    display: inline-block; /* Required for transform to work correctly */
+  }
+  
+  .signout-button:hover {
+    background-color: #dda0dd; /* Light purple background on hover */
+    color: #000; /* Black text on hover */
+    transform: scale(1.1); /* Scale up on hover */
+  }
+  
