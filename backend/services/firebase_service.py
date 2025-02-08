@@ -3,7 +3,7 @@ import firebase_admin
 from firebase_admin import credentials, auth as firebase_auth
 
 # Initialize the Firebase Admin SDK with your service account credentials.
-cred = credentials.Certificate("path/to/serviceAccountKey.json")
+cred = credentials.Certificate("serviceAccountKey.json")
 firebase_admin.initialize_app(cred)
 
 def verify_token_and_create_session(id_token):

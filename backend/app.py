@@ -1,8 +1,8 @@
 from flask import Flask, session, redirect, url_for
 from routes.auth import auth_bp
+import secrets
 
 app = Flask(__name__)
-app.secret_key = "your-secret-key"  # Replace with your secure secret key
 
 # Register the authentication blueprint
 app.register_blueprint(auth_bp)

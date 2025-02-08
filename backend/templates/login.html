@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Login with Google via Firebase</title>
+    <!-- Load Firebase libraries using the compat scripts -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <script>
+      // Your Firebase project configuration
+      var firebaseConfig = {
+        apiKey: "YOUR_API_KEY",
+        authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+        projectId: "YOUR_PROJECT_ID",
+        // Optionally add other settings: storageBucket, messagingSenderId, appId, etc.
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      
+      function signIn() {
+        var provider = new firebase.auth.GoogleAuthProvider();
+        // Force account selection if needed
+        provider.setCustomParameters({ prompt: "select_account" });
+        firebase.auth().signInWithPopup(provider)
+          .then((result) => {
+            // Retrieve the Firebase ID token
+            return result.user.getIdToken();
+          })
+          .then((idToken) => {
+            // Send the token to the Flask backend for session creation
+            return fetch("/sessionLogin", {
+              method: "POST",
+              headers: { "Content-Type": "application/x-www-form-urlencoded" },
+              body: "idToken=" + encodeURIComponent(idToken)
+            });
+          })
+          .then(response => {
+            if (response.ok) {
+              // Redirect to the home page upon successful login
+              window.location.assign("/");
+            } else {
+              return response.text().then(text => { throw new Error(text); });
+            }
+          })
+          .catch(error => {
+            console.error("Error during sign in:", error);
+            alert("Error signing in: " + error.message);
+          });
+      }
+    </script>
+  </head>
+  <body>
+    <h2>Login with Google</h2>
+    <button onclick="signIn()">Sign in with Google</button>
+  </body>
+</html>
