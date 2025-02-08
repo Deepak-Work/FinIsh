@@ -28,9 +28,9 @@ function Node({ position, label, onClick }) {
 export default function HomePage() {
   const nodes = [
     { label: "Profile", position: [2, 2, 0], link: "/profile" },
-    { label: "Projects", position: [-2, 2, 0], link: "/projects" },
-    { label: "Contact", position: [2, -2, 0], link: "/contact" },
-    { label: "Blog", position: [-2, -2, 0], link: "/blog" },
+    { label: "Explore", position: [-2, 2, 0], link: "/#discussion" },
+    { label: "Company", position: [2, -2, 0], link: "/Company" },
+    { label: "Learning", position: [-2, -2, 0], link: "/Learning" },
   ];
 
   return (
