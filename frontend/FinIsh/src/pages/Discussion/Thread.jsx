@@ -1,6 +1,6 @@
 import React from "react";
 import { MessageCircle, Clock } from "lucide-react";
-
+import { Link } from "react-router-dom";
 const cardStyle = {
   backgroundColor: "white",
   padding: "24px",
@@ -46,28 +46,71 @@ const discussionContainerStyle = {
   flexDirection: "column",
   gap: "16px",
 };
-
 const discussions = [
   {
     id: 1,
-    title: "Optimal Solution for Two Sum?",
-    author: "JohnDoe",
-    timestamp: "2 hours ago",
-    comments: 12,
+    title: "How to Start Investing with Limited Funds?",
+    author: "FinanceGuru",
+    timestamp: "3 hours ago",
+    comments: 5,
+    content:
+      "I’m new to investing and don’t have a large budget. What are some smart ways to start investing with limited funds? Are index funds or fractional shares a good option?",
+    answers: [
+      { text: "Consider investing in index funds or ETFs with low expense ratios. They offer diversification and require minimal effort.", votes: 10 },
+      { text: "Fractional shares allow you to invest in expensive stocks without needing to buy a full share. Great way to start!", votes: 7 },
+    ],
   },
   {
     id: 2,
-    title: "Why is my DP solution not working?",
-    author: "JaneSmith",
-    timestamp: "5 hours ago",
+    title: "Understanding Compound Interest and Its Impact?",
+    author: "MoneyMatters",
+    timestamp: "1 day ago",
     comments: 8,
+    content:
+      "I recently heard about the 'power of compound interest,' but I don’t fully understand how it works. Can someone explain its benefits and how I can use it to grow wealth?",
+    answers: [
+      { text: "Compound interest helps your money grow exponentially. The earlier you start investing, the more you benefit from reinvested earnings.", votes: 12 },
+      { text: "Use the rule of 72: Divide 72 by your expected annual return to estimate how many years it takes to double your money.", votes: 8 },
+    ],
   },
   {
     id: 3,
-    title: "Best Resources for Graph Algorithms?",
-    author: "AliceJohnson",
-    timestamp: "1 day ago",
-    comments: 15,
+    title: "What Are the Best Strategies for Saving Money?",
+    author: "SavvySaver",
+    timestamp: "2 days ago",
+    comments: 6,
+    content:
+      "I struggle with saving money consistently. What are some effective savings strategies that I can implement in my daily life?",
+    answers: [
+      { text: "Try the 50/30/20 rule: Allocate 50% of income to needs, 30% to wants, and 20% to savings or investments.", votes: 9 },
+      { text: "Automate savings by setting up recurring transfers to a high-yield savings account.", votes: 6 },
+    ],
+  },
+  {
+    id: 4,
+    title: "Should I Pay Off Debt First or Invest?",
+    author: "DebtFreeJourney",
+    timestamp: "5 days ago",
+    comments: 4,
+    content:
+      "I have some high-interest debt but also want to start investing. Should I focus on paying off debt first, or is it possible to do both?",
+    answers: [
+      { text: "If your debt has an interest rate above 7-8%, prioritize paying it off before investing. High-interest debt can eat away at your returns.", votes: 11 },
+      { text: "You can balance both by allocating a portion of your income to investments while aggressively paying down high-interest debt.", votes: 7 },
+    ],
+  },
+  {
+    id: 5,
+    title: "How Does Inflation Affect My Savings?",
+    author: "EconEnthusiast",
+    timestamp: "1 week ago",
+    comments: 3,
+    content:
+      "I keep most of my savings in a regular bank account, but I’m worried about inflation. How does inflation impact savings, and how can I protect my money?",
+    answers: [
+      { text: "Inflation erodes the purchasing power of money over time. Consider putting your savings in assets that outpace inflation, like stocks or real estate.", votes: 9 },
+      { text: "High-yield savings accounts and inflation-protected bonds (TIPS) are safer options to combat inflation’s effects.", votes: 5 },
+    ],
   },
 ];
 
@@ -80,6 +123,12 @@ const Thread_Page = () => {
       <h2 style={subHeaderStyle}>Discussion Forum</h2>
       <div style={discussionContainerStyle}>
         {discussions.map((discussion) => (
+          <Link 
+          key={discussion.id} 
+          to={`/discussion/${discussion.id}`} 
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
+          
           <div
             key={discussion.id}
             style={{ ...cardStyle, ...(hovered === discussion.id ? cardHoverStyle : {}) }}
@@ -101,6 +150,7 @@ const Thread_Page = () => {
               </div>
             </div>
           </div>
+          </Link>
         ))}
       </div>
     </div>
