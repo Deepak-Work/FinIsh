@@ -7,6 +7,7 @@ import ThreadPage from "./pages/Discussion/Individual_Thread.jsx";
 import Explore from "./pages/Explore/Explore.jsx"
 import Sections from "./pages/Sections/Sections.jsx"
 import ProfilePage from "./pages/Profile/ProfilePage.jsx";
+import Enrollment from "./pages/Sections/Enrollment/Enrollment.jsx";
 
 function App() {
   return (
@@ -20,6 +21,8 @@ function App() {
         <Route path="/explore" element={<Explore />} />
         <Route path="/sections" element={<Sections />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/enrollment" element={<Enrollment />} />
+
 
       </Routes>
     </div>
