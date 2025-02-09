@@ -11,11 +11,16 @@ function Header() {
       <a href="/">FinIsh</a>
       </div>
       <nav className="nav">
-        <a href="/#profile">Profile</a>
+        {/* <a href="/#profile">Profile</a>
         <a href="/#enrollment">Enrollment</a>
         <a href="/#discussion">Discussion</a>
         <a href="/#explore">Explore</a>
-        <a href="/#sections">Sections</a>
+        <a href="/#sections">Sections</a> */}
+        {isAuthenticated && (<a href="/#profile">Profile</a>)}
+        {isAuthenticated && (<a href="/#enrollment">Enrollment</a>)}
+        {isAuthenticated && (<a href="/#discussion">Discussion</a>)}
+        {isAuthenticated && (<a href="/#explore">Explore</a>)}
+        {isAuthenticated && (<a href="/#sections">Sections</a>)}
         {isAuthenticated && (<a href="/" onClick={logout}>Logout</a>)}
       </nav>
     </header>
