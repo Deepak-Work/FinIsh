@@ -7,7 +7,7 @@ import ThreadPage from "./pages/Discussion/Individual_Thread.jsx";
 import Explore from "./pages/Explore/Explore.jsx"
 import Sections from "./pages/Sections/Sections.jsx"
 import ProfilePage from "./pages/Profile/ProfilePage.jsx";
-import Enrollment from "./pages/Sections/Enrollment/Enrollment.jsx";
+import Enrollment from "./pages/Enrollment/Enrollment.jsx";
 
 function App() {
   return (
