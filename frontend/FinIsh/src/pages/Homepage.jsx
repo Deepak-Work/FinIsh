@@ -72,7 +72,7 @@ function Connections({ nodes }) {
 
 export default function HomePage() {
   const [user, setUser] = useState(null);
-  const [showSignIn, setShowSignIn] = useState(false);
+  const [showSignIn, setShowSignIn] = useState(true);
 
   const checkSession = () => {
     fetch('http://127.0.0.1:5000/check_session', {
@@ -164,12 +164,12 @@ export default function HomePage() {
         ))}
         <OrbitControls />
       </Canvas>
-      {showSignIn && <SignInPopup 
+      {/* {showSignIn && <SignInPopup 
     onSignInSuccess={(loggedInUser) => {
       setUser(loggedInUser); // Set user state after successful login
       setShowSignIn(false); // Hide sign-in popup
     }} 
-  />}
+  />} */}
     </div>
   );
 }

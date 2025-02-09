@@ -18,6 +18,10 @@ def get_db_connection():
 @jwt_required()  # Protect this route with JWT authentication
 def fetch_all_questions():
     user_id = get_jwt_identity()  # Get user_id from the JWT token payload
+    
+    if not user_id:
+        abort(401, description="Unauthorized: Missing or invalid user ID")
+
     conn = get_db_connection()
     cur = conn.cursor()
     cur.execute("""
@@ -48,6 +52,10 @@ def fetch_all_questions():
 @jwt_required()  # Protect this route with JWT authentication
 def fetch_answers_for_question(question_id):
     user_id = get_jwt_identity()  # Get user_id from the JWT token payload
+    
+    if not user_id:
+        abort(401, description="Unauthorized: Missing or invalid user ID")
+    
     conn = get_db_connection()
     cur = conn.cursor()
     cur.execute("""
@@ -79,6 +87,8 @@ def fetch_answers_for_question(question_id):
 @jwt_required()  # Protect this route with JWT authentication
 def add_answer(question_id):
     user_id = get_jwt_identity()  # Get the user_id from the JWT
+    if not user_id:
+        abort(401, description="Unauthorized: Missing or invalid user ID")
     data = request.get_json()
     body = data.get('body')
     if not body:
@@ -104,6 +114,8 @@ def add_answer(question_id):
 @jwt_required()  # Protect this route with JWT authentication
 def update_answer(answer_id):
     user_id = get_jwt_identity()  # Get the user_id from the JWT
+    if not user_id:
+        abort(401, description="Unauthorized: Missing or invalid user ID")
     data = request.get_json()
     body = data.get('body')
     if not body:
@@ -128,6 +140,8 @@ def update_answer(answer_id):
 @jwt_required()  # Protect this route with JWT authentication
 def delete_answer(answer_id):
     user_id = get_jwt_identity()  # Get the user_id from the JWT
+    if not user_id:
+        abort(401, description="Unauthorized: Missing or invalid user ID")
     conn = get_db_connection()
     cur = conn.cursor()
     cur.execute("""
@@ -151,6 +165,8 @@ def delete_answer(answer_id):
 @jwt_required()  # Protect this route with JWT authentication
 def modify_upvote(answer_id):
     user_id = get_jwt_identity()  # Get the user_id from the JWT
+    if not user_id:
+        abort(401, description="Unauthorized: Missing or invalid user ID")
     data = request.get_json()
     if not user_id:
         abort(400, description="Missing user_id in request data.")
@@ -251,6 +267,8 @@ def modify_upvote(answer_id):
 @jwt_required()  # Protect this route with JWT authentication
 def get_question(question_id):
     user_id = get_jwt_identity()  # Get user_id from the JWT token payload
+    if not user_id:
+        abort(401, description="Unauthorized: Missing or invalid user ID")
     conn = get_db_connection()
     cur = conn.cursor()
     cur.execute("""
@@ -281,6 +299,8 @@ def get_question(question_id):
 @jwt_required()  # Protect this route with JWT authentication
 def add_question():
     user_id = get_jwt_identity()  # Get the user_id from the JWT
+    if not user_id:
+        abort(401, description="Unauthorized: Missing or invalid user ID")
     data = request.get_json()
     title = data.get('title')
     body = data.get('body')
@@ -307,6 +327,8 @@ def add_question():
 @jwt_required()  # Protect this route with JWT authentication
 def edit_question(question_id):
     user_id = get_jwt_identity()  # Get the user_id from the JWT
+    if not user_id:
+        abort(401, description="Unauthorized: Missing or invalid user ID")
     data = request.get_json()
     title = data.get('title')
     body = data.get('body')
@@ -332,6 +354,8 @@ def edit_question(question_id):
 @jwt_required()  # Protect this route with JWT authentication
 def delete_question(question_id):
     user_id = get_jwt_identity()  # Get the user_id from the JWT
+    if not user_id:
+        abort(401, description="Unauthorized: Missing or invalid user ID")
     conn = get_db_connection()
     cur = conn.cursor()
     cur.execute("""

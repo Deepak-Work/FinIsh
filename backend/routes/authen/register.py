@@ -26,13 +26,14 @@ def register():
             "INSERT INTO users (full_name, username, email, password_hash) VALUES (%s, %s, %s, %s) RETURNING user_id",
             (full_name, username, email, hashed_password)
         )
-        user_id = cur.fetchone()[0]
+        # user_id = cur.fetchone()[0]
         conn.commit()
         
         # Generate JWT token after registration
-        access_token = generate_token(user_id, username)
+        # access_token = generate_token(user_id, username)
         
-        return jsonify({"message": "User registered successfully", "access_token": access_token}), 201
+        # return jsonify({"message": "User registered successfully", "access_token": access_token}), 201
+        return jsonify({"message": "User registered successfully",}), 201
     except psycopg2.Error as e:
         conn.rollback()
         return jsonify({"error": "Error registering user", "details": str(e)}), 500

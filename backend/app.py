@@ -5,8 +5,8 @@ from routes.discussion import discussion_bp
 import psycopg2
 from flask_jwt_extended import JWTManager
 from config import Config
-from routes.register import register_bp
-from routes.login import login_bp
+from routes.authen.register import register_bp
+from routes.authen.auth_api import auth_api_bp
 from flask_session import Session
 import os
 
@@ -40,10 +40,10 @@ def get_db_connection():
 
 # Register the authentication blueprint
 app.register_blueprint(auth_bp)
+app.register_blueprint(register_bp)
 app.register_blueprint(discussion_bp, url_prefix='/discussion')
-app.register_blueprint(register_bp, url_prefix="/auth")
-app.register_blueprint(login_bp, url_prefix="/auth")
-app.secret_key = secrets.token_hex(16)
+app.register_blueprint(auth_api_bp, url_prefix="/auth")
+# app.secret_key = secrets.token_hex(16)
 @app.route("/")
 def index():
     if session.get("user"):

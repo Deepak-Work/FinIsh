@@ -8,11 +8,11 @@ from services import firebase_service
 auth_bp = Blueprint("auth", __name__)
 
 # Load client secrets from JSON file
-with open('./secrets.json', 'r') as f:
-    client_secrets = json.load(f)
+# with open('./secrets.json', 'r') as f:
+#     client_secrets = json.load(f)
 
-CLIENT_ID = client_secrets['client_id']
-CLIENT_SECRET = client_secrets['client_secrets']
+# CLIENT_ID = client_secrets['client_id']
+# CLIENT_SECRET = client_secrets['client_secrets']
 
 def exchange_code_for_token(authorization_code, redirect_uri):
     token_url = "https://oauth2.googleapis.com/token"
