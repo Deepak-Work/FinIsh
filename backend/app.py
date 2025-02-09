@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 # Register the authentication blueprint
 app.register_blueprint(auth_bp)
-
+app.secret_key = secrets.token_hex(16)
 @app.route("/")
 def index():
     if session.get("user"):
