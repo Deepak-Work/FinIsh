@@ -83,3 +83,14 @@
     font-weight: bold;
     color: #fff;
 }
+
+.video-tag {
+    margin: 10px 0px;
+    padding: 10px 20px;
+    border: 2px solid purple;
+    border-radius: 25px;
+    background-color: black;
+    color: white;
+    font-size: 16px;
+    align-self: flex-start;
+  }

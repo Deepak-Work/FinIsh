@@ -14,3 +14,7 @@ backend/routes/__pycache__/*.pyc
 backend/routes/__pycache__/__init__.cpython-312.pyc
 backend/routes/__pycache__/__init__.cpython-312.pyc
 backend/services/__pycache__/firebase_service.cpython-312.pyc
+**/.DS_Store
+node_modules/
+**/__pycache__/
+*.pyc

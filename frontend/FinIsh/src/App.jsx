@@ -10,6 +10,8 @@ import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
 import { AuthOptions } from "./authentication/AuthOptions.jsx";
 import ProtectedRoute from "./pages/ProtectedRoute.jsx";
+import ProfilePage from "./pages/Profile/ProfilePage.jsx";
+import Enrollment from "./pages/Enrollment/Enrollment.jsx";
 function App() {
   const [loading, setLoading] = useState(true);
   const { isAuthenticated } = useContext(AuthOptions);
@@ -59,6 +61,26 @@ function App() {
             isAuthenticated &&
             <ProtectedRoute>
               <Sections />
+            </ProtectedRoute>
+          }
+        />
+        
+        <Route
+          path="profile"
+          element={
+            isAuthenticated &&
+            <ProtectedRoute>
+              <ProfilePage />
+            </ProtectedRoute>
+          }
+        />
+
+      <Route
+          path="enrollment"
+          element={
+            isAuthenticated &&
+            <ProtectedRoute>
+              <Enrollment />
             </ProtectedRoute>
           }
         />
