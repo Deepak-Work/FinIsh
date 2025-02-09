@@ -35,6 +35,7 @@
             });
           })
           .then(response => {
+            console.log(response)
             if (response.ok) {
               // Redirect to the home page upon successful login
               window.location.assign("/");
