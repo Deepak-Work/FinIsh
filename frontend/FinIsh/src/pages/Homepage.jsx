@@ -12,7 +12,7 @@ import firebaseConfig from '/Users/dc/Documents/Personal-Code/FinIsh/backend/fir
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-setPersistence(auth, browserSessionPersistence)
+setPersistence(auth, browserLocalPersistence)
   .then(() => {
     // Existing and future Auth states are now persisted in local storage
     // This is the default behavior

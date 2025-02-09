@@ -93,22 +93,26 @@ def callback():
 
     user_info = userinfo_response.json()
 
-    # Store user info in session (or database)
+    # Store user info in session
     session['user'] = {
         'email': user_info.get('email'),
         'name': user_info.get('name'),
         'picture': user_info.get('picture'),
     }
 
-    session.modified = True
+    session.modified = True  # Ensure the session is saved
 
     print("Session after setting:", dict(session))
 
+    # Save session explicitly before redirect
+    from flask import g
+    g.session = session
     return redirect('http://127.0.0.1:5174/')#jsonify({"message": "Login successful", "user": session['user']})
 
 @auth_bp.route("/check_session", methods=['GET'])
 def check_session():
     print("Session data:", dict(session))
+    
     if 'user' in session:
         return jsonify({"user": session['user']})
     return jsonify({"user": None}), 401
