@@ -19,7 +19,7 @@ def update_user_video():
     API endpoint to update the user's last watched video ID in the database.
     Expected JSON format: { "userId": "user123", "videoId": "3xXUQEvf8v0" }
     """
-    user_id = '040d735f-f5c5-4420-8392-4f2505bf9a0c'
+    user_id = '7f4e6426-1202-4ff5-a969-eb8adb24c267'
     data = request.json
     print("Printing Data",data)
     try:

@@ -15,7 +15,7 @@ def get_db_connection():
 
 @enrollment_bp.route('/get_user_data', methods=['GET'])
 def get_user_data():
-    user_id = '040d735f-f5c5-4420-8392-4f2505bf9a0c';#request.args.get('user_id')  # Get user_id from request parameters
+    user_id = '7f4e6426-1202-4ff5-a969-eb8adb24c267';#request.args.get('user_id')  # Get user_id from request parameters
 
     if not user_id:
         return jsonify({"error": "User ID is required"}), 400

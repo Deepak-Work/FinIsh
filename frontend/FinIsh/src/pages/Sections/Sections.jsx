@@ -5,11 +5,11 @@ import "./Sections.css";
 const tags = ["Trading", "Asset Classes", "Stocks", "Bonds", "Risk Management"];
 
 const videos = [
-  { id: '10fe9034-a602-48d7-bf97-36fe71a83f24', tag: "Trading", url: "https://www.youtube.com/embed/3xXUQEvf8v0", title: "Financial Terms Explained as Simply as Possible" },
-  { id: '8fa974ec-d58b-46d9-91b1-e0e582c5cddf', tag: "Asset Classes", url: "https://www.youtube.com/embed/L9okFQ9B7pI", title: "How to Get and Use Credit Cards" },
-  { id: '38b8e609-649e-4b48-a12d-e06c5b9a7b2e', tag: "Stocks", url: "https://www.youtube.com/embed/VeJz2q0umJE", title: "Types of Insurance (Health, Life, Property, and Auto)" },
-  { id: 'aabd392c-e9a6-42d1-8b71-a6799eeb7c95', tag: "Bonds", url: "https://www.youtube.com/embed/-wpHszfnJns", title: "A terrible guide to the terrible terminology of U.S. Health Insurance" },
-  { id: 'cd3ac2bc-1153-4d84-b25c-87261e8a4520', tag: "Risk Management", url: "https://www.youtube.com/embed/vZE0j_WCRvI", title: "What does a consultant actually do?" },
+  { id: '5e33acdd-143e-468c-946f-2274fad79e76', tag: "Trading", url: "https://www.youtube.com/embed/3xXUQEvf8v0", title: "Financial Terms Explained as Simply as Possible" },
+  { id: '6948a255-44d6-4e5a-ac90-594459621409', tag: "Asset Classes", url: "https://www.youtube.com/embed/L9okFQ9B7pI", title: "How to Get and Use Credit Cards" },
+  { id: '83fe467c-6af2-4de0-83ed-318f791a9e06', tag: "Stocks", url: "https://www.youtube.com/embed/VeJz2q0umJE", title: "Types of Insurance (Health, Life, Property, and Auto)" },
+  { id: 'e402bf8c-1628-46aa-b06a-75ea76464e47', tag: "Bonds", url: "https://www.youtube.com/embed/-wpHszfnJns", title: "A terrible guide to the terrible terminology of U.S. Health Insurance" },
+  { id: 'f1d029ed-4769-4594-8bad-dd51aeaec238', tag: "Risk Management", url: "https://www.youtube.com/embed/vZE0j_WCRvI", title: "What does a consultant actually do?" },
   { id: 'b238e9ca-1352-40e2-ad4c-814a81c38d68', tag: "Trading", url: "https://www.youtube.com/embed/uhR9Lq3fWM8", title: "The Ultimate Beginner's Guide to Consulting! (Hours, Lifestyle, Compensation, Pros & Cons)" },
   { id: '418a0f66-ae89-4e57-bee2-52f3affa9d67', tag: "Asset Classes", url: "https://www.youtube.com/embed/DuBrreMiZlA", title: "What do Wall Street quants actually do?" },
   { id: '0a476ffe-a460-42db-b745-45e92c37d01b', tag: "Stocks", url: "https://www.youtube.com/embed/yca0A3B7Pqc", title: "Private equity explained" },

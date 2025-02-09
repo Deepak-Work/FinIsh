@@ -13,7 +13,7 @@ def get_db_connection():
 selected_video = {
     "src": "https://www.youtube.com/embed/3xXUQEvf8v0",  # Default video
     "title": "Financial Terms Explained as Simply as Possible",
-    "id": '10fe9034-a602-48d7-bf97-36fe71a83f24',
+    "id": '5e33acdd-143e-468c-946f-2274fad79e76',
     "tag": 'Trading'
 }
 

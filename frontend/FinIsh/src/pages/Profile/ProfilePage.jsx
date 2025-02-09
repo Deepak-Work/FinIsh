@@ -19,7 +19,7 @@ const ProfilePage = () => {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const userId = '040d735f-f5c5-4420-8392-4f2505bf9a0c'; // Replace with dynamic user ID from auth (use something like user.id)
+                const userId = '7f4e6426-1202-4ff5-a969-eb8adb24c267'; // Replace with dynamic user ID from auth (use something like user.id)
                 console.log(userId)
                 const response = await fetch(`http://127.0.0.1:5000/profile/${userId}`,{ // Updated URL
                     method: "GET",
