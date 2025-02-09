@@ -13,8 +13,6 @@ with open('./secrets.json', 'r') as f:
 
 CLIENT_ID = client_secrets['client_id']
 CLIENT_SECRET = client_secrets['client_secrets']
-TOKEN_URL = "https://oauth2.googleapis.com/token"
-USERINFO_URL = "https://openidconnect.googleapis.com/v1/userinfo"
 
 def exchange_code_for_token(authorization_code, redirect_uri):
     token_url = "https://oauth2.googleapis.com/token"
@@ -36,18 +34,9 @@ def exchange_code_for_token(authorization_code, redirect_uri):
 
 @auth_bp.route("/login")
 def login():
-    redirect_uri = url_for('auth.callback', _external=True)
-    print(redirect_uri)
-    auth_url = (
-        f'https://accounts.google.com/o/oauth2/v2/auth'
-        f'?client_id={CLIENT_ID}'
-        f'&response_type=code'
-        f'&scope=openid%20email%20profile'
-        f'&redirect_uri={redirect_uri}'
-    )
-    return jsonify({"login_url": auth_url})
-    # return render_template("login.html")
-    
+    # Render the login page that includes Firebase client-side JS.
+    return render_template("login.html")
+
 @auth_bp.route("/sessionLogin", methods=["POST"])
 def session_login():
     # Get the Firebase ID token sent from the client.
@@ -63,61 +52,10 @@ def session_login():
     except Exception as e:
         return f"Failed to create session cookie: {str(e)}", 401
 
-@auth_bp.route("/callback", methods=['GET'])
-def callback():
-    # Get the authorization code from the query parameters
-    code = request.args.get('code')
-    if not code:
-        return jsonify({"error": "Authorization code not found"}), 400
-
-    # Exchange authorization code for access token
-    token_data = {
-        'code': code,
-        'client_id': CLIENT_ID,
-        'client_secret': CLIENT_SECRET,
-        'redirect_uri': url_for('auth.callback', _external=True),
-        'grant_type': 'authorization_code',
-    }
-    token_response = requests.post(TOKEN_URL, data=token_data)
-    if token_response.status_code != 200:
-        return jsonify({"error": "Failed to fetch access token"}), 400
-
-    tokens = token_response.json()
-    access_token = tokens.get('access_token')
-
-    # Fetch user info using the access token
-    headers = {'Authorization': f'Bearer {access_token}'}
-    userinfo_response = requests.get(USERINFO_URL, headers=headers)
-    if userinfo_response.status_code != 200:
-        return jsonify({"error": "Failed to fetch user info"}), 400
-
-    user_info = userinfo_response.json()
-
-    # Store user info in session
-    session['user'] = {
-        'email': user_info.get('email'),
-        'name': user_info.get('name'),
-        'picture': user_info.get('picture'),
-    }
-
-    session.modified = True  # Ensure the session is saved
-
-    print("Session after setting:", dict(session))
-
-    # Save session explicitly before redirect
-    from flask import g
-    g.session = session
-    return redirect('http://127.0.0.1:5174/')#jsonify({"message": "Login successful", "user": session['user']})
-
-@auth_bp.route("/check_session", methods=['GET'])
-def check_session():
-    print("Session data:", dict(session))
-    
-    if 'user' in session:
-        return jsonify({"user": session['user']})
-    return jsonify({"user": None}), 401
-
 @auth_bp.route("/logout")
 def logout():
-    session.pop('user', None)
-    return jsonify({"message": "Logged out successfully"})
+    # Clear the Flask session and the session cookie.
+    session.pop("user", None)
+    response = make_response(redirect(url_for("auth.login")))
+    response.set_cookie("session", "", expires=0)
+    return response

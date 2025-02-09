@@ -21,13 +21,37 @@ setPersistence(auth, browserLocalPersistence)
   .catch((error) => {
     console.error("Error setting persistence:", error);
   });
+import React, { useState, useRef, useMemo } from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { OrbitControls, Text } from "@react-three/drei";
+import Explore from "./Explore/Explore.jsx"
+import { useNavigate } from 'react-router-dom';
+import * as THREE from 'three';
 
 function Node({ position, label, onClick }) {
+  const [hovered, setHovered] = useState(false);
+
   return (
-    <mesh position={position} onClick={onClick}>
-      <sphereGeometry args={[0.3, 32, 32]} />
-      <meshStandardMaterial color={label === "User" ? "blue" : "gray"} />
-    </mesh>
+    <group position={position}>
+      <mesh 
+        onClick={onClick} 
+        onPointerOver={() => setHovered(true)} 
+        onPointerOut={() => setHovered(false)}
+        scale={hovered ? 1.5 : 1}
+      >
+        <sphereGeometry args={[0.4, 32, 32]} />
+        <meshStandardMaterial color={hovered ? "#D8BFD8" : label === "My Profile" ? "black" : "purple"} />
+      </mesh>
+      <Text
+        position={[0, -1, 0]} // Adjust the vertical position to place the text below the node
+        fontSize={0.2}
+        color="black" // Adjust color as needed
+        anchorX="center"
+        anchorY="top"
+      >
+        {label}
+      </Text>
+    </group>
   );
 }
 
@@ -76,14 +100,19 @@ export default function HomePage() {
     checkSession();
   }, []);
 
+  const navigate = useNavigate();
+  const nodes = useMemo(() => [
+    { label: "Discussion", position: [2, 3, 0], link: "/#discussion" },
+    { label: "Enrollment", position: [-2, 3, 0], link: "/#enrollment" },
+    { label: "Explore", position: [2, -1, 0], link: "/#explore" },
+    { label: "About Us", position: [-2, -1, 0], link: "/#aboutus" },
+  ], []);
 
-
-  const nodes = [
-    { label: "Profile", position: [2, 2, 0], link: "/profile" },
-    { label: "Projects", position: [-2, 2, 0], link: "/projects" },
-    { label: "Contact", position: [2, -2, 0], link: "/contact" },
-    { label: "Blog", position: [-2, -2, 0], link: "/blog" },
-  ];
+  const handleNodeClick = (link) => {
+    if (link) {
+      navigate(link); // Use navigate to go to the route
+    }
+  };
 
   return (
     <div style={{ position: 'relative', width: '100%', height: '100vh' }}>
@@ -106,10 +135,10 @@ export default function HomePage() {
           Logout
         </button>
       )}
-      <Canvas camera={{ position: [0, 0, 5] }}>
+      <Canvas camera={{ position: [0, 0, 5] }} style={{ backgroundColor: "white" }}>
         <ambientLight intensity={0.5} />
         <directionalLight position={[2, 2, 2]} intensity={1} />
-        <Node position={[0, 0, 0]} label="User" onClick={() => {}} />
+        <Node position={[0, 1, 0]} label="My Profile" />
         {nodes.map((node, index) => (
           <Node
             key={index}
