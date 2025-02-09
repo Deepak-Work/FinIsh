@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Explore.css'; // Make sure your CSS file is properly linked
 
 const Explore = () => {
@@ -34,29 +34,52 @@ const Explore = () => {
         },
     ];
 
-    const handleVideoChange = (video) => {
-        setCurrentVideo({ src: video.src, title: video.title });
+    useEffect(() => {
+        const fetchVideo = async () => {
+            try {
+                const response = await fetch("http://127.0.0.1:5000/sections/get_video", {method: "GET"});
+                const data = await response.json();
+                setCurrentVideo({ src: data.src, title: data.title });
+            } catch (error) {
+                console.error("Error fetching video:", error);
+            }
+        };
+    
+        fetchVideo();
+    }, []); 
+
+    const handleVideoChange = async (video) => {
+        try {
+            await fetch("http://127.0.0.1:5000/sections/set_video", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ src: video.src, title: video.title }),
+            });
+            setCurrentVideo({ src: video.src, title: video.title });
+        } catch (error) {
+            console.error("Error setting video:", error);
+        }
     };
 
     return (
         <div className="video-platform">
             <div className="main-video">
                 <h2>{currentVideo.title}</h2>
-                <iframe 
-                    width="720" 
-                    height="405" 
-                    src={currentVideo.src} 
-                    title={currentVideo.title} 
-                    frameBorder="0" 
+                <iframe
+                    width="720"
+                    height="405"
+                    src={currentVideo.src}
+                    title={currentVideo.title}
+                    frameBorder="0"
                     allowFullScreen
                 ></iframe>
             </div>
             <div className="recommendations">
                 <h3>Recommended</h3>
                 {recommendedVideos.map((video) => (
-                    <div 
-                        className="recommended-video" 
-                        key={video.id} 
+                    <div
+                        className="recommended-video"
+                        key={video.id}
                         onClick={() => handleVideoChange(video)}
                     >
                         <img src={video.thumbnail} alt={video.title} className="thumbnail" />
