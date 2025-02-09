@@ -20,28 +20,35 @@ const containerStyle = {
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
-  justifyContent: "center",
-  padding: "32px",
   backgroundColor: "#F9FAFB",
 };
 
-const headerStyle = {
-  textAlign: "center",
-  fontSize: "32px",
+const headerContainerStyle = {
+  width: "100%",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  padding: "20px 0",
+  backgroundColor: "#000",
+  color: "#fff",
+};
+
+const titleStyle = {
+  fontSize: "28px",
   fontWeight: "bold",
-  color: "#1F2937",
-  marginBottom: "24px",
+  color: "#fff",
+  marginBottom: "8px",
 };
 
 const subHeaderStyle = {
-  fontSize: "24px",
+  fontSize: "20px",
   fontWeight: "bold",
-  color: "#374151",
-  marginBottom: "24px",
+  color: "#E5E7EB",
 };
 
 const discussionContainerStyle = {
   width: "60%",
+  marginTop: "32px",
   display: "flex",
   flexDirection: "column",
   gap: "16px",
@@ -119,8 +126,13 @@ const Thread_Page = () => {
 
   return (
     <div style={containerStyle}>
-      <h1 style={headerStyle}>Fin & Tell</h1>
-      <h2 style={subHeaderStyle}>Discussion Forum</h2>
+      {/* Header Section */}
+      <div style={headerContainerStyle}>
+        <h1 style={titleStyle}>Fin & Tell</h1>
+        <h2 style={subHeaderStyle}>Discussion Forum</h2>
+      </div>
+
+      {/* Discussion Threads */}
       <div style={discussionContainerStyle}>
         {discussions.map((discussion) => (
           <Link 

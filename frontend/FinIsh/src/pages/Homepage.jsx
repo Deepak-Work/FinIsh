@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo, useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, Text } from "@react-three/drei";
 import { useNavigate } from 'react-router-dom';
+import { Line } from "@react-three/drei";
 import * as THREE from 'three';
 
 import SignInPopup from "./SignIn";
@@ -18,6 +19,7 @@ function Node({ position, label, onClick }) {
       ref.current.position.y = position[1] + Math.sin(Date.now() * speed) * 0.1;
     }
   });
+
 
   return (
     <group position={position} ref={ref}>
@@ -48,19 +50,12 @@ function Connections({ nodes }) {
   return (
     <>
       {nodes.map((node, index) => (
-        <mesh key={index}>
-          <line>
-            <bufferGeometry attach="geometry">
-              <bufferAttribute
-                attach="attributes-position"
-                array={new Float32Array([0, 1, 0, ...node.position])}
-                itemSize={3}
-                count={2}
-              />
-            </bufferGeometry>
-            <lineBasicMaterial attach="material" color="gray" linewidth={2} />
-          </line>
-        </mesh>
+        <Line
+          key={index}
+          points={[[0, 1, 0], [...node.position]]} // Connecting My Profile to each node
+          color="gray"
+          lineWidth={2}
+        />
       ))}
     </>
   );
@@ -114,10 +109,10 @@ export default function HomePage() {
   const navigate = useNavigate();
 
   const nodes = useMemo(() => [
-    { label: "Discussion", position: [2, 3, 0], link: "/discussion" },
-    { label: "Enrollment", position: [-2, 3, 0], link: "/enrollment" },
-    { label: "Explore", position: [2, -1, 0], link: "/explore" },
-    { label: "Sections", position: [-2, -1, 0], link: "/sections" },
+    { label: "Discussion", position: [2, 3, 0], link: "/#discussion" },
+    { label: "Enrollment", position: [-2, 3, 0], link: "/#enrollment" },
+    { label: "Explore", position: [2, -1, 0], link: "/#explore" },
+    { label: "Sections", position: [-2, -1, 0], link: "/#sections" },
   ], []);
 
   const handleNodeClick = (link) => {
@@ -145,15 +140,13 @@ export default function HomePage() {
           Logout
         </button>
       )}
-
-      <Canvas camera={{ position: [0, 0, 5] }} style={{ backgroundColor: "white" }}>
-        <ambientLight intensity={0.5} />
+      <Canvas camera={{ position: [0, 0, 6] }} style={{ background: "linear-gradient(to bottom, #f0f0f0, #d8bfd8)" }}>
+        <ambientLight intensity={1.0} />
         <directionalLight position={[2, 2, 2]} intensity={1} />
-        
-        {/* My Profile Node */}
-        <Node position={[0, 1, 0]} label="My Profile" />
-
-        {/* Other Nodes */}
+        {/* <Connections nodes={nodes} /> */}
+        <Node position={[0, 1, 0]}
+      label="My Profile"
+      onClick={() => navigate('/profile')} />
         {nodes.map((node, index) => (
           <Node
             key={index}
