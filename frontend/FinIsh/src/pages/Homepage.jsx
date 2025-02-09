@@ -1,7 +1,7 @@
 // HomePage.jsx
 import React, { useState, useEffect, useMemo } from "react";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Text } from "@react-three/drei";
+import { OrbitControls, Text, Line } from "@react-three/drei";
 import { initializeApp } from "firebase/app";
 import { setPersistence,browserLocalPersistence, browserSessionPersistence ,getRedirectResult, signOut, onAuthStateChanged } from "firebase/auth";
 import { getAuth } from "firebase/auth";
@@ -61,7 +61,7 @@ function Connections({ nodes }) {
       {nodes.map((node, index) => (
         <Line
           key={index}
-          points={[[0, 1, 0], node.position]} // Connecting My Profile to each node
+          points={[[0, 1, 0], [...node.position]]} // Ensure proper position format
           color="gray"
           lineWidth={2}
         />
@@ -69,6 +69,7 @@ function Connections({ nodes }) {
     </>
   );
 }
+
 
 export default function HomePage() {
   const [user, setUser] = useState(null);
@@ -153,6 +154,7 @@ export default function HomePage() {
       <Canvas camera={{ position: [0, 0, 5] }} style={{ backgroundColor: "white" }}>
         <ambientLight intensity={0.5} />
         <directionalLight position={[2, 2, 2]} intensity={1} />
+        <Connections nodes={nodes} />
         <Node position={[0, 1, 0]} label="My Profile" />
         {nodes.map((node, index) => (
           <Node
