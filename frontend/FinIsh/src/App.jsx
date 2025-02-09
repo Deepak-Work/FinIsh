@@ -42,7 +42,7 @@ function App() {
           element={
             isAuthenticated &&
             <ProtectedRoute>
-              <Thread_Page />
+              <ThreadPage />
             </ProtectedRoute>
           }
         />
