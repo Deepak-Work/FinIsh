@@ -5,7 +5,8 @@ const Explore = () => {
     const [currentVideo, setCurrentVideo] = useState({
         src: 'https://www.youtube.com/embed/3xXUQEvf8v0', // Embedded format for YouTube
         title: 'Financial Terms Explained as Simply as Possible',
-        id: 1
+        id: '10fe9034-a602-48d7-bf97-36fe71a83f24',
+        tag: 'Trading'
     });
     const playerRef = useRef(null); // Ref to store the YouTube player instance
 
@@ -51,7 +52,7 @@ const Explore = () => {
             try {
                 const response = await fetch("http://127.0.0.1:5000/sections/get_video", { method: "GET" });
                 const data = await response.json();
-                setCurrentVideo({ src: data.src, title: data.title, id: data.id });
+                setCurrentVideo({ src: data.src, title: data.title, id: data.id, tag: data.tag });
             } catch (error) {
                 console.error("Error fetching video:", error);
             }
@@ -84,7 +85,7 @@ const Explore = () => {
             await fetch("http://127.0.0.1:5000/sections/set_video", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ src: video.src, title: video.title, id: video.id }),
+                body: JSON.stringify({ src: video.src, title: video.title, id: video.id, tag: video.tag }),
             });
             setCurrentVideo({ src: video.src, title: video.title, id: video.id });
         } catch (error) {
@@ -117,6 +118,9 @@ const Explore = () => {
             <div className="main-video">
                 <h2>{currentVideo.title}</h2>
                 <div id="youtube-player"></div> {/* This is where the YouTube player will be embedded */}
+                <div className="video-tag">
+                    <p>Tag: {currentVideo.tag}</p> {/* Displaying the tag */}
+                </div>
             </div>
             <div className="recommendations">
                 <h3>Recommended</h3>

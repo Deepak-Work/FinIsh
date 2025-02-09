@@ -1,12 +1,20 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, current_app
+import psycopg2
+
 
 sections_bp = Blueprint('sections', __name__)
+
+def get_db_connection():
+    conn = psycopg2.connect(current_app.config['DATABASE_URI'])
+    print(conn)
+    return conn
 
 # In-memory storage for the last selected video
 selected_video = {
     "src": "https://www.youtube.com/embed/3xXUQEvf8v0",  # Default video
     "title": "Financial Terms Explained as Simply as Possible",
-    "id": 1
+    "id": '10fe9034-a602-48d7-bf97-36fe71a83f24',
+    "tag": 'Trading'
 }
 
 @sections_bp.route('/set_video', methods=['POST'])
@@ -19,10 +27,13 @@ def set_video():
     data = request.json
     print(data)
 
+
     if "src" in data and "title" in data:
         selected_video["src"] = data["src"]
         selected_video["title"] = data["title"]
         selected_video["id"] = data["id"]
+        selected_video["tag"] = data["tag"]
+
 
         return jsonify({"message": "Video updated successfully"}), 200
     
