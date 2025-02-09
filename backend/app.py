@@ -43,7 +43,7 @@ app.register_blueprint(auth_bp)
 app.register_blueprint(discussion_bp, url_prefix='/discussion')
 app.register_blueprint(register_bp, url_prefix="/auth")
 app.register_blueprint(login_bp, url_prefix="/auth")
-
+app.secret_key = secrets.token_hex(16)
 @app.route("/")
 def index():
     if session.get("user"):

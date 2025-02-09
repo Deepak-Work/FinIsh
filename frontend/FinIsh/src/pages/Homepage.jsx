@@ -1,30 +1,30 @@
 // HomePage.jsx
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls } from "@react-three/drei";
+import { OrbitControls, Text } from "@react-three/drei";
 import { initializeApp } from "firebase/app";
 import { setPersistence,browserLocalPersistence, browserSessionPersistence ,getRedirectResult, signOut, onAuthStateChanged } from "firebase/auth";
 import { getAuth } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import SignInPopup  from "./SignIn"; // Import the SignInPopup component
-import firebaseConfig from '/Users/dc/Documents/Personal-Code/FinIsh/backend/firebaseConfig.json'
+// import firebaseConfig from '/Users/dc/Documents/Personal-Code/FinIsh/backend/firebaseConfig.json'
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+// const app = initializeApp(firebaseConfig);
+// const auth = getAuth(app);
 
-setPersistence(auth, browserLocalPersistence)
-  .then(() => {
-    // Existing and future Auth states are now persisted in local storage
-    // This is the default behavior
-    console.log("Firebase persistence set");
-  })
-  .catch((error) => {
-    console.error("Error setting persistence:", error);
-  });
-import React, { useState, useRef, useMemo } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls, Text } from "@react-three/drei";
-import Explore from "./Explore/Explore.jsx"
+// setPersistence(auth, browserLocalPersistence)
+//   .then(() => {
+//     // Existing and future Auth states are now persisted in local storage
+//     // This is the default behavior
+//     console.log("Firebase persistence set");
+//   })
+//   .catch((error) => {
+//     console.error("Error setting persistence:", error);
+//   });
+// import React, { useState, useMemo } from "react";
+// import { Canvas} from "@react-three/fiber";
+// import { OrbitControls, Text } from "@react-three/drei";
+// // import Explore from "./Explore/Explore.jsx"
 import { useNavigate } from 'react-router-dom';
 import * as THREE from 'three';
 
@@ -39,19 +39,34 @@ function Node({ position, label, onClick }) {
         onPointerOut={() => setHovered(false)}
         scale={hovered ? 1.5 : 1}
       >
-        <sphereGeometry args={[0.4, 32, 32]} />
+        <sphereGeometry args={[0.5, 32, 32]} />
         <meshStandardMaterial color={hovered ? "#D8BFD8" : label === "My Profile" ? "black" : "purple"} />
       </mesh>
       <Text
-        position={[0, -1, 0]} // Adjust the vertical position to place the text below the node
+        position={[0, -1, 0]}
         fontSize={0.2}
-        color="black" // Adjust color as needed
+        color="black"
         anchorX="center"
         anchorY="top"
       >
         {label}
       </Text>
     </group>
+  );
+}
+
+function Connections({ nodes }) {
+  return (
+    <>
+      {nodes.map((node, index) => (
+        <Line
+          key={index}
+          points={[[0, 1, 0], node.position]} // Connecting My Profile to each node
+          color="gray"
+          lineWidth={2}
+        />
+      ))}
+    </>
   );
 }
 
@@ -96,16 +111,16 @@ export default function HomePage() {
       .catch(error => console.error("Error during logout:", error));
   };
 
-  useEffect(() => {
-    checkSession();
-  }, []);
+  // useEffect(() => {
+  //   // checkSession();
+  // }, []);
 
   const navigate = useNavigate();
   const nodes = useMemo(() => [
-    { label: "Discussion", position: [2, 3, 0], link: "/#discussion" },
-    { label: "Enrollment", position: [-2, 3, 0], link: "/#enrollment" },
-    { label: "Explore", position: [2, -1, 0], link: "/#explore" },
-    { label: "About Us", position: [-2, -1, 0], link: "/#aboutus" },
+    { label: "Discussion", position: [2, 3, 0], link: "/discussion" },
+    { label: "Enrollment", position: [-2, 3, 0], link: "/enrollment" },
+    { label: "Explore", position: [2, -1, 0], link: "/explore" },
+    { label: "Sections", position: [-2, -1, 0], link: "/sections" },
   ], []);
 
   const handleNodeClick = (link) => {
