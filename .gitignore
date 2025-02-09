@@ -1,5 +1,5 @@
 backend/serviceAccountKey.json
 .env
 package-lock.json
-backend/__pycache__/*.pyc
+backend/**/__pycache__/*.pyc
 backend/firebaseConfig.json
