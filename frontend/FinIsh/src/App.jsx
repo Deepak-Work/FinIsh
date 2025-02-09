@@ -6,6 +6,8 @@ import Thread_Page from "./pages/Discussion/thread.jsx";
 import ThreadPage from "./pages/Discussion/Individual_Thread.jsx";
 import Explore from "./pages/Explore/Explore.jsx"
 import Sections from "./pages/Sections/Sections.jsx"
+import ProfilePage from "./pages/Profile/ProfilePage.jsx";
+
 function App() {
   return (
     <div style={{ width: "100vw", height: "100vh" }}>
@@ -17,6 +19,8 @@ function App() {
         <Route path="/discussion/:id" element={<ThreadPage />} />
         <Route path="/explore" element={<Explore />} />
         <Route path="/sections" element={<Sections />} />
+        <Route path="/profile" element={<ProfilePage />} />
+
       </Routes>
     </div>
   );

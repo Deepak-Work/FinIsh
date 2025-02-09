@@ -1,0 +1,67 @@
+.profile-container {
+    background-color: #f0f0f0; /* Light background color */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    color: #000;
+  }
+  
+  /* For the profile text */
+  .profile-text {
+    color: #333; /* Dark text color for contrast */
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  
+  /* For the profile title */
+  .profile-title {
+    color: #2c3e50; /* Darker color for title to make it stand out */
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  /* For the profile picture */
+  .profile-picture {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    margin-right: 20px;
+  }
+  
+.profile-info {
+    flex-grow: 1;
+}
+
+.profile-info h2 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.profile-info p {
+    margin: 5px 0;
+    font-size: 16px;
+}
+
+.profile-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.stat-item {
+    background-color: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.stat-item h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.stat-item p {
+    font-size: 20px;
+    margin-top: 10px;
+}
