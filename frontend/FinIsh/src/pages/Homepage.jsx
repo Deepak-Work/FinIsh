@@ -7,6 +7,7 @@ import { setPersistence,browserLocalPersistence, browserSessionPersistence ,getR
 import { getAuth } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import SignInPopup  from "./SignIn"; // Import the SignInPopup component
+import Profile from "./../Profile.jsx";
 // import firebaseConfig from '/Users/dc/Documents/Personal-Code/FinIsh/backend/firebaseConfig.json'
 
 // const app = initializeApp(firebaseConfig);
@@ -72,7 +73,13 @@ function Connections({ nodes }) {
 
 
 export default function HomePage() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState({
+    name: "John Doe",
+    email: "john.doe@example.com",
+    joinedDate: "Jan 1, 2024",
+    profilePic: "https://via.placeholder.com/100", // Replace with real user image
+  });
+  const [showProfile, setShowProfile] = useState(false);
   const [showSignIn, setShowSignIn] = useState(false);
 
   const checkSession = () => {
@@ -124,9 +131,11 @@ export default function HomePage() {
     { label: "Sections", position: [-2, -1, 0], link: "/sections" },
   ], []);
 
-  const handleNodeClick = (link) => {
-    if (link) {
-      navigate(link); // Use navigate to go to the route
+  const handleNodeClick = (label,link) => {
+    if (label === "My Profile") {
+      setShowProfile(true);
+    } else if (link) {
+      navigate(link);
     }
   };
 
@@ -166,6 +175,10 @@ export default function HomePage() {
         ))}
         <OrbitControls />
       </Canvas>
+      {/* Profile Panel */}
+      <div className={`profile-container ${showProfile ? "open" : ""}`}>
+        {showProfile && <Profile user={user} onClose={() => setShowProfile(false)} />}
+      </div>
       {showSignIn && <SignInPopup 
     onSignInSuccess={(loggedInUser) => {
       setUser(loggedInUser); // Set user state after successful login
