@@ -16,7 +16,7 @@ function Node({ position, label, onClick }) {
         onPointerOut={() => setHovered(false)}
         scale={hovered ? 1.5 : 1}
       >
-        <sphereGeometry args={[0.4, 32, 32]} />
+        <sphereGeometry args={[0.5, 32, 32]} />
         <meshStandardMaterial color={hovered ? "#D8BFD8" : label === "My Profile" ? "black" : "purple"} />
       </mesh>
       <Text
