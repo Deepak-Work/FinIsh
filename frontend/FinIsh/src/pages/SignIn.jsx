@@ -1,4 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { AuthOptions } from "../authentication/AuthOptions";
+import { registerUser } from "../api/apiAuth/apiAuth";
+import { useNavigate } from "react-router-dom";
 
 // Function to validate email format using a regular expression
 const isValidEmail = (email) => {
@@ -7,13 +10,17 @@ const isValidEmail = (email) => {
   return emailPattern.test(email);
 };
 
-export default function SignInPopup({ onSignInSuccess }) {
+
+
+export default function SignInPopup({ onSignInSuccess, isRegistering }) {
+  const {login} = useContext(AuthOptions);
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [fullName, setFullName] = useState("");
   const [retypePassword, setRetypePassword] = useState("");
-  const [isRegistering, setIsRegistering] = useState(false); // To toggle between SignIn and Register
+  // const [isRegistering, setIsRegistering] = useState(false); // To toggle between SignIn and Register
   const [alertMessage, setAlertMessage] = useState(""); // State for dynamic alerts
   const [isPasswordVisible, setIsPasswordVisible] = useState(false); // To toggle password visibility
   const [isRetypePasswordVisible, setIsRetypePasswordVisible] = useState(false); // To toggle retype password visibility
@@ -33,12 +40,14 @@ export default function SignInPopup({ onSignInSuccess }) {
       .catch((error) => console.error("Error:", error));
   };
 
-  const handleSignIn = () => {
-    console.log("Signing in with:", email, password);
+  const handleSignIn = async () => {
+    console.log("Signing in with:", username, password);
     // Add API request to authenticate user
+    await login(username,password);
+    navigate("/");
   };
 
-  const handleRegister = () => {
+  const handleRegister = async () => {
     console.log("Registering with:", fullName, username, email, password, retypePassword);
 
     // Check if all fields are filled
@@ -63,6 +72,8 @@ export default function SignInPopup({ onSignInSuccess }) {
     setAlertMessage("");
 
     // Add API request to register user
+    await registerUser(fullName, username, email, password)
+    navigate("/");
   };
 
   const toggleForm = () => {
@@ -70,24 +81,32 @@ export default function SignInPopup({ onSignInSuccess }) {
     setAlertMessage(""); // Clear alert when toggling forms
   };
 
-  useEffect(() => {
-    const checkSession = () => {
-      fetch("http://127.0.0.1:5000/check_session", {
-        method: "GET",
-        credentials: "include", // Include cookies in the request
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.user) {
-            console.log("User successfully logged in:", data.user);
-            onSignInSuccess(data.user); // Notify parent about successful login
-          }
-        })
-        .catch((error) => console.error("Error checking session:", error));
-    };
+  const redirectRegister = () => {
+    navigate("/register", { replace: true });
+  }
 
-    checkSession(); // Call checkSession when component mounts
-  }, [onSignInSuccess]);
+  const redirectLogin = () => {
+    navigate("/login", { replace: true });
+  }
+
+  // useEffect(() => {
+  //   const checkSession = () => {
+  //     fetch("http://127.0.0.1:5000/check_session", {
+  //       method: "GET",
+  //       credentials: "include", // Include cookies in the request
+  //     })
+  //       .then((response) => response.json())
+  //       .then((data) => {
+  //         if (data.user) {
+  //           console.log("User successfully logged in:", data.user);
+  //           onSignInSuccess(data.user); // Notify parent about successful login
+  //         }
+  //       })
+  //       .catch((error) => console.error("Error checking session:", error));
+  //   };
+
+  //   checkSession(); // Call checkSession when component mounts
+  // }, [onSignInSuccess]);
 
   return (
     <div
@@ -145,8 +164,12 @@ export default function SignInPopup({ onSignInSuccess }) {
             required
           />
 
-          {/* Username Input */}
-          <input
+        </>
+      )}
+
+
+      {/* Username Input */}
+      <input
             type="text"
             placeholder="Username"
             value={username}
@@ -159,9 +182,9 @@ export default function SignInPopup({ onSignInSuccess }) {
             }}
             required
           />
-        </>
-      )}
 
+      {isRegistering && (
+        <>
       {/* Email Input */}
       <input
         type="email"
@@ -175,10 +198,12 @@ export default function SignInPopup({ onSignInSuccess }) {
           width: "100%",
         }}
         required
-      />
+        />
+        </>
+      )}
 
       {/* Password Input */}
-      <div style={{ position: "relative", width: "100%" }}>
+      <div style={{ position: "relative", width: "100%", marginRight:20, }}>
         <input
           type={isPasswordVisible ? "text" : "password"}
           placeholder="Password"
@@ -198,7 +223,7 @@ export default function SignInPopup({ onSignInSuccess }) {
           onClick={() => setIsPasswordVisible(!isPasswordVisible)}
           style={{
             position: "absolute",
-            right: "10px",
+            right: "0px",
             top: "50%",
             transform: "translateY(-50%)",
             cursor: "pointer",
@@ -219,10 +244,13 @@ export default function SignInPopup({ onSignInSuccess }) {
               onChange={(e) => setRetypePassword(e.target.value)}
               style={{
                 padding: "10px",
-                paddingRight: "40px", // Add extra padding for the toggle icon
+                // paddingRight: "40px", // Add extra padding for the toggle icon
                 borderRadius: "5px",
                 border: "1px solid #ccc",
                 width: "100%",
+                paddingRight: "10px",
+                position: "relative",
+                right: 10,
               }}
               required
             />
@@ -267,7 +295,7 @@ export default function SignInPopup({ onSignInSuccess }) {
       >
         <span
           style={{ cursor: "pointer", color: "#007bff" }}
-          onClick={toggleForm}
+          onClick={isRegistering ? redirectLogin : redirectRegister}
         >
           {isRegistering
             ? "Already have an account? Sign In"

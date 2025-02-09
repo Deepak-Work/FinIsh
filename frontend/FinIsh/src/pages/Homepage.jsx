@@ -68,7 +68,49 @@ function Connections({ nodes }) {
 
 export default function HomePage() {
   const [user, setUser] = useState(null);
-  const [showSignIn, setShowSignIn] = useState(false);
+  const [showSignIn, setShowSignIn] = useState(true);
+
+  const checkSession = () => {
+    fetch('http://127.0.0.1:5000/check_session', {
+      method: 'GET',
+      credentials: 'include', // Include cookies in the request
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.user) {
+          console.log("User is logged in:", data.user);
+          setUser(data.user); // Set user state with session data
+          setShowSignIn(false); // Hide sign-in popup
+        } else {
+          console.log("No active session");
+          setUser(null);
+          setShowSignIn(true); // Show sign-in popup if no session exists
+        }
+      })
+      .catch(error => {
+        console.error("Error checking session:", error);
+        setUser(null);
+        setShowSignIn(true); // Show sign-in popup on error
+      });
+  };
+
+  const handleLogout = () => {
+    fetch('http://127.0.0.1:5000/logout', {
+      method: 'GET',
+      credentials: 'include', // Include cookies in the request
+    })
+      .then(response => {
+        if (response.ok) {
+          window.location.href = '/'; // Redirect to homepage or login page after logout
+        }
+      })
+      .catch(error => console.error("Error during logout:", error));
+  };
+
+  // useEffect(() => {
+  //   // checkSession();
+  // }, []);
+
   const navigate = useNavigate();
 
   const nodes = useMemo(() => [
@@ -126,11 +168,12 @@ export default function HomePage() {
         
         <OrbitControls />
       </Canvas>
-
-      {showSignIn && <SignInPopup onSignInSuccess={(loggedInUser) => {
-        setUser(loggedInUser);
-        setShowSignIn(false);
-      }} />}
+      {/* {showSignIn && <SignInPopup 
+    onSignInSuccess={(loggedInUser) => {
+      setUser(loggedInUser); // Set user state after successful login
+      setShowSignIn(false); // Hide sign-in popup
+    }} 
+  />} */}
     </div>
   );
 }
