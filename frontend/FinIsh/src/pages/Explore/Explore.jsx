@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './Explore.css'; // Make sure your CSS file is properly linked
 
 const Explore = () => {
     const [currentVideo, setCurrentVideo] = useState({
         src: 'https://www.youtube.com/embed/3xXUQEvf8v0', // Embedded format for YouTube
         title: 'Financial Terms Explained as Simply as Possible',
+        id: 1
     });
+    const playerRef = useRef(null); // Ref to store the YouTube player instance
 
     const recommendedVideos = [
         { 
@@ -34,30 +36,79 @@ const Explore = () => {
         },
     ];
 
+    // UseEffect to load YouTube API script
     useEffect(() => {
+        const loadYouTubeAPI = () => {
+            const script = document.createElement("script");
+            script.src = "https://www.youtube.com/iframe_api";
+            script.async = true;
+            document.body.appendChild(script);
+        };
+
+        loadYouTubeAPI();
+
         const fetchVideo = async () => {
             try {
-                const response = await fetch("http://127.0.0.1:5000/sections/get_video", {method: "GET"});
+                const response = await fetch("http://127.0.0.1:5000/sections/get_video", { method: "GET" });
                 const data = await response.json();
-                setCurrentVideo({ src: data.src, title: data.title });
+                setCurrentVideo({ src: data.src, title: data.title, id: data.id });
             } catch (error) {
                 console.error("Error fetching video:", error);
             }
         };
-    
+
         fetchVideo();
     }, []); 
+
+    // Create the YouTube player when the API is ready
+    useEffect(() => {
+        window.onYouTubeIframeAPIReady = () => {
+            playerRef.current = new window.YT.Player('youtube-player', {
+                videoId: currentVideo.src.split('/embed/')[1], // Extract the video ID from the embedded URL
+                events: {
+                    'onStateChange': handleVideoStateChange,
+                },
+            });
+        };
+    }, [currentVideo]);
+
+    // Handle the state change event of the video player
+    const handleVideoStateChange = (event) => {
+        if (event.data === window.YT.PlayerState.ENDED) {
+            handleVideoEnd();
+        }
+    };
 
     const handleVideoChange = async (video) => {
         try {
             await fetch("http://127.0.0.1:5000/sections/set_video", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ src: video.src, title: video.title }),
+                body: JSON.stringify({ src: video.src, title: video.title, id: video.id }),
             });
-            setCurrentVideo({ src: video.src, title: video.title });
+            setCurrentVideo({ src: video.src, title: video.title, id: video.id });
         } catch (error) {
             console.error("Error setting video:", error);
+        }
+    };
+
+    const handleVideoEnd = async () => {
+        console.log("Video ended");
+
+        // Send the video ID to the backend when the video is finished
+        try {
+            const videoLink = currentVideo.src.split('/embed/')[1]; // Extract video ID from the URL
+
+            // Send a request to update the video ID in the user's record
+            await fetch("http://127.0.0.1:5000/explore/update_user_video", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ videolink: videoLink, id: currentVideo.id }),
+            });
+
+            console.log("Video ID updated in database");
+        } catch (error) {
+            console.error("Error updating video ID:", error);
         }
     };
 
@@ -65,14 +116,7 @@ const Explore = () => {
         <div className="video-platform">
             <div className="main-video">
                 <h2>{currentVideo.title}</h2>
-                <iframe
-                    width="720"
-                    height="405"
-                    src={currentVideo.src}
-                    title={currentVideo.title}
-                    frameBorder="0"
-                    allowFullScreen
-                ></iframe>
+                <div id="youtube-player"></div> {/* This is where the YouTube player will be embedded */}
             </div>
             <div className="recommendations">
                 <h3>Recommended</h3>

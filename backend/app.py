@@ -8,6 +8,8 @@ from config import Config
 from routes.register import register_bp
 from routes.login import login_bp
 from routes.sections import sections_bp
+from routes.explore import explore_bp
+
 from flask_session import Session
 import os
 import secrets
@@ -46,6 +48,8 @@ app.register_blueprint(discussion_bp, url_prefix='/discussion')
 app.register_blueprint(register_bp, url_prefix="/auth")
 app.register_blueprint(login_bp, url_prefix="/auth")
 app.register_blueprint(sections_bp, url_prefix='/sections')
+app.register_blueprint(explore_bp, url_prefix='/explore')
+
 app.secret_key = secrets.token_hex(16)
 @app.route("/")
 def index():
