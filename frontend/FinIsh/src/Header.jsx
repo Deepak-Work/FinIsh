@@ -12,7 +12,7 @@ function Header() {
         <a href="/#enrollment">Enrollment</a>
         <a href="/#discussion">Discussion</a>
         <a href="/#explore">Explore</a>
-        <a href="/#aboutus">About Us</a>
+        <a href="/#sections">Sections</a>
       </nav>
     </header>
   );

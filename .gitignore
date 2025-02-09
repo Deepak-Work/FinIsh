@@ -1,3 +1,12 @@
-backend/serviceAccountKey.json
+# backend/serviceAccountKey.json
 backend/routes/__pycache__/auth.cpython-311.pyc
-backend/secrets.json
+# backend/secrets.json
+.env
+package-lock.json
+backend/**/__pycache__/*.pyc
+backend/firebaseConfig.json
+backend/routes/**/*.pyc
+# backend/secrets.json
+backend/**/*.pyc
+backend/routes/__pycache__/auth.cpython-311.pyc
+.env
