@@ -1,7 +1,6 @@
-import React, { useState, useRef, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls, Text } from "@react-three/drei";
-import Explore from "./Explore/Explore.jsx"
+import { OrbitControls, Text, Line } from "@react-three/drei";
 import { useNavigate } from 'react-router-dom';
 import * as THREE from 'three';
 
@@ -20,9 +19,9 @@ function Node({ position, label, onClick }) {
         <meshStandardMaterial color={hovered ? "#D8BFD8" : label === "My Profile" ? "black" : "purple"} />
       </mesh>
       <Text
-        position={[0, -1, 0]} // Adjust the vertical position to place the text below the node
+        position={[0, -1, 0]}
         fontSize={0.2}
-        color="black" // Adjust color as needed
+        color="black"
         anchorX="center"
         anchorY="top"
       >
@@ -32,37 +31,51 @@ function Node({ position, label, onClick }) {
   );
 }
 
+function Connections({ nodes }) {
+  return (
+    <>
+      {nodes.map((node, index) => (
+        <Line
+          key={index}
+          points={[[0, 1, 0], node.position]} // Connecting My Profile to each node
+          color="gray"
+          lineWidth={2}
+        />
+      ))}
+    </>
+  );
+}
+
 export default function HomePage() {
   const navigate = useNavigate();
   const nodes = useMemo(() => [
-    { label: "Discussion", position: [2, 3, 0], link: "/#discussion" },
-    { label: "Enrollment", position: [-2, 3, 0], link: "/#enrollment" },
-    { label: "Explore", position: [2, -1, 0], link: "/#explore" },
-    { label: "About Us", position: [-2, -1, 0], link: "/#aboutus" },
+    { label: "Discussion", position: [2, 3, 0], link: "/discussion" },
+    { label: "Enrollment", position: [-2, 3, 0], link: "/enrollment" },
+    { label: "Explore", position: [2, -1, 0], link: "/explore" },
+    { label: "Sections", position: [-2, -1, 0], link: "/sections" },
   ], []);
 
   const handleNodeClick = (link) => {
     if (link) {
-      navigate(link); // Use navigate to go to the route
+      navigate(link);
     }
   };
 
   return (
-    
-      <Canvas camera={{ position: [0, 0, 5] }} style={{ backgroundColor: "white" }}>
-        <ambientLight intensity={0.5} />
-        <directionalLight position={[2, 2, 2]} intensity={1} />
-        <Node position={[0, 1, 0]} label="My Profile" />
-        {nodes.map((node, index) => (
-          <Node
-            key={index}
-            position={node.position}
-            label={node.label}
-            onClick={() => window.location.href = node.link}
-          />
-        ))}
-        <OrbitControls />
-      </Canvas>
-    
+    <Canvas camera={{ position: [0, 0, 6] }} style={{ background: "linear-gradient(to bottom, #f0f0f0, #d8bfd8)" }}>
+      <ambientLight intensity={0.6} />
+      <directionalLight position={[2, 2, 2]} intensity={1} />
+      <Connections nodes={nodes} />
+      <Node position={[0, 1, 0]} label="My Profile" />
+      {nodes.map((node, index) => (
+        <Node
+          key={index}
+          position={node.position}
+          label={node.label}
+          onClick={() => handleNodeClick(node.link)}
+        />
+      ))}
+      <OrbitControls />
+    </Canvas>
   );
 }
